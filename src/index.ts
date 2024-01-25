@@ -39,7 +39,12 @@ fastify.post('/check-uptime', async (request, reply) => {
       .filter(Boolean)
       .map(bot => JSON.parse(bot as string) as BotSchema)
     
-    const targetBots = _.chunk(bots.filter(bot => Date.now() - bot.lastChecked > 1000 * 60 * 60 * 2), 4)
+    const targetBots = _.chunk(
+      bots
+        .filter(bot => bot.visible)
+        .filter(bot => Date.now() - bot.lastChecked > 1000 * 60 * 60 * 2),
+      4
+    )
     for (const bots of targetBots) {
       await Promise.all(bots.map(async bot => {
         try {
@@ -52,6 +57,9 @@ fastify.post('/check-uptime', async (request, reply) => {
           } else {
             bot.status = 'offline'
             bot.checksFails++
+            if (bot.checksFails > 60) {
+              bot.visible = false
+            }
             await botsDb.put(bot.id, JSON.stringify(bot))
           }
         } catch(e) {
