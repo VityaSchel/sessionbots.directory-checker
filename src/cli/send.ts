@@ -17,7 +17,7 @@ if (!inputMessage) {
   throw new Error('No input message provided')
 }
 
-const timeout = 30 * 1000
+const timeout = 60 * 1000
 
 await initializeSession({ profileDataPath: profilePath })
 const shortName: string = uniqueNamesGenerator({
