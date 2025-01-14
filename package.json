@@ -14,7 +14,7 @@
     "@session.js/client": "^0.0.54",
     "@session.js/keypair": "^1.0.2",
     "@session.js/mnemonic": "^1.0.4",
-    "fastify": "^5.2.1",
+    "fastify": "4.25.2",
     "ioredis": "^5.3.2",
     "lodash": "^4.17.21",
     "unique-names-generator": "^4.7.1"
